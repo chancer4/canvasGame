@@ -1,3 +1,35 @@
+   this.stop = function(){
+            clearInterval(this._interval);
+    }
+
+    this.resume = function(){
+         var self = this;
+         clearInterval(self._interval);
+         this._interval = setInterval(function () {
+            self.drawAnimation();
+        }, 10);
+    }
+
+    $(document).on('click', '#pause-progress', function (e) {
+        // pause progress
+        console.log("click!");
+        stop();
+    });
+
+    $(document).on('click', '#resume-progress', function (e) {
+        // resume progress
+          anim.resume();
+    });
+
+    $(document).on('click', '#restart-progress', function (e) {
+        // restart progress
+       anim.stop();
+       anim = new PercentAnimation(ctx, percentage);
+       anim.startAnimation();
+    });
+
+
+
 var canvas = document.getElementById("myCanvas");
 var ctx = canvas.getContext("2d");
 
@@ -96,40 +128,41 @@ function collisionDetection() {
         			fillColor = getRandomColor();
 
         			if(score == brickRowCount*brickColumnCount){
-        				ctx.clearRect(0,0,canvas.width,canvas.height);
-						setInterval(drawTwo, interval);
+      //   				ctx.clearRect(0,0,canvas.width,canvas.height);
+						// setInterval(drawTwo, interval);
 
-        				console.log(score)
-        				drawTwo();
+      //   				console.log(score)
+      //   				drawTwo();
+                        alert('You Win!');
         			}
         		}
         	}
         }
     }
 }
-function collisionDetection2() {
-    for(cTwo=0; cTwo<brickColumnCount2; cTwo++) {
-        for(rTwo=0; rTwo<brickRowCount2; rTwo++) {
-        	var bTwo = bricks2[cTwo][rTwo];
-        	if(bTwo.status == 1) {
-        		if(x > bTwo.x && x < bTwo.x+brickWidth2 && y > bTwo.y && y < bTwo.y+brickHeight2) {
-        			dy = -dy;
-        			bTwo.status = 0;
-        			score++;
-        			fillColor = fillColor;
+// function collisionDetection2() {
+//     for(cTwo=0; cTwo<brickColumnCount2; cTwo++) {
+//         for(rTwo=0; rTwo<brickRowCount2; rTwo++) {
+//         	var bTwo = bricks2[cTwo][rTwo];
+//         	if(bTwo.status == 1) {
+//         		if(x > bTwo.x && x < bTwo.x+brickWidth2 && y > bTwo.y && y < bTwo.y+brickHeight2) {
+//         			dy = -dy;
+//         			bTwo.status = 0;
+//         			score++;
+//         			fillColor = fillColor;
 
-        			if(score == brickRowCount2*brickColumnCount2){
-        				ctx.clearRect(0,0,canvas.width,canvas.height);
-						setInterval(drawTwo, interval);
+//         			if(score == brickRowCount2*brickColumnCount2){
+//         				ctx.clearRect(0,0,canvas.width,canvas.height);
+// 						setInterval(drawTwo, interval);
 
-        				console.log(score)
-        				drawTwo();
-        			}
-        		}
-        	}
-        }
-    }
-}
+//         				console.log(score)
+//         				drawTwo();
+//         			}
+//         		}
+//         	}
+//         }
+//     }
+// }
 
 function drawScore(){
 	ctx.font = "16px Arial";
@@ -241,59 +274,59 @@ function draw() {
 	x+=dx;
 	y+=dy;
 }
-function drawTwo() {
-	drawBricks2();
-	drawBall();
-	drawPaddle();
-	drawScore();
-	drawLives();
-	collisionDetection2();
-	if(x + dx > canvas.width-ballRadius || x + dx < ballRadius) {
-		dx = -dx;
-		fillColor = getRandomColor();
-		// console.log(getRandomColor());
-	}
-	if(y + dy < ballRadius) {
-		dy = -dy;
+// function drawTwo() {
+// 	drawBricks2();
+// 	drawBall();
+// 	drawPaddle();
+// 	drawScore();
+// 	drawLives();
+// 	collisionDetection2();
+// 	if(x + dx > canvas.width-ballRadius || x + dx < ballRadius) {
+// 		dx = -dx;
+// 		fillColor = getRandomColor();
+// 		// console.log(getRandomColor());
+// 	}
+// 	if(y + dy < ballRadius) {
+// 		dy = -dy;
 
-	}else if (y + dy > canvas.height-ballRadius){
-		if(x > paddleX && x < (paddleX+(paddleWidth/2))){
-			dx = dx - .7;
-			dy = dy + .075;
-			dy = -dy;
-		}
-		else if(x>((paddleX+paddleWidth)/2) && x<paddleX+paddleWidth){
-			dx = dx + .7;
-			dy = dy + .075;
-			console.log(dx);
-			console.log(dy);
-			dy = -dy;
-		}
-		else {
-            lives--;
-            if(!lives) {
-                alert("GAME OVER");
-                document.location.reload();
-            }
-            else {
-                x = canvas.width/2;
-                y = canvas.height-30;
-                dx = 3;
-                dy = -3;
-                paddleX = (canvas.width-paddleWidth)/2;
-            }
-        }
-	}
-	console.log(paddleSpeed);
-	if(rightPressed && paddleX < canvas.width-paddleWidth) {
-		paddleX += paddleSpeed;
-	}
-	else if(leftPressed && paddleX > 0) {
-		paddleX -= paddleSpeed;
-	}
-	x+=dx;
-	y+=dy;
-}
+// 	}else if (y + dy > canvas.height-ballRadius){
+// 		if(x > paddleX && x < (paddleX+(paddleWidth/2))){
+// 			dx = dx - .7;
+// 			dy = dy + .075;
+// 			dy = -dy;
+// 		}
+// 		else if(x>((paddleX+paddleWidth)/2) && x<paddleX+paddleWidth){
+// 			dx = dx + .7;
+// 			dy = dy + .075;
+// 			console.log(dx);
+// 			console.log(dy);
+// 			dy = -dy;
+// 		}
+// 		else {
+//             lives--;
+//             if(!lives) {
+//                 alert("GAME OVER");
+//                 document.location.reload();
+//             }
+//             else {
+//                 x = canvas.width/2;
+//                 y = canvas.height-30;
+//                 dx = 3;
+//                 dy = -3;
+//                 paddleX = (canvas.width-paddleWidth)/2;
+//             }
+//         }
+// 	}
+// 	console.log(paddleSpeed);
+// 	if(rightPressed && paddleX < canvas.width-paddleWidth) {
+// 		paddleX += paddleSpeed;
+// 	}
+// 	else if(leftPressed && paddleX > 0) {
+// 		paddleX -= paddleSpeed;
+// 	}
+// 	x+=dx;
+// 	y+=dy;
+// }
 setInterval(draw, interval);
 
 
